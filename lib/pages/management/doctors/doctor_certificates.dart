@@ -31,9 +31,10 @@ class _DoctorCertificateDetailsState extends State<DoctorCertificateDetails> {
   Widget build(BuildContext context) {
 
 
-    return StreamBuilder<DocumentSnapshot>(
+    return StreamBuilder(
         stream: FirebaseFirestore.instance.doc('doctor/${widget.uid}').snapshots(),
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+          print(snapshot.data!.get("doctor_certificate"));
           if (snapshot.data == null) {
             return Center(
               child: CircularProgressIndicator(),
@@ -69,12 +70,30 @@ class _DoctorCertificateDetailsState extends State<DoctorCertificateDetails> {
                             imageWidth:
                             MediaQuery.of(context).size.height*0.5,
                             networkImageUrl: netUrl,
-                            path: 'Doctor/certificate/${widget.uid}',
+                            path: 'Doctor/${widget.uid}/certificate.jpg',
                             onPressed: (String string) {
                               Get.bottomSheet(Center(child: CircularProgressIndicator(color: Colors.white,),));
                               netUrl = string;
                               Get.back();
                             }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ShowImage(
+                                imageUrl: snapshot.data!.get("doctor_certificate"), name: 'Your Certificate',
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.remove_red_eye,color: Color(themeColor),),
+                              Text1(text: "Preview Certificate", color: Color(themeColor), size: 20)
+                            ],
+                          ),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),

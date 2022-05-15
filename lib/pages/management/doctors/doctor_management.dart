@@ -23,14 +23,17 @@ class DoctorManagement extends StatelessWidget {
         ),
         title: Text1(text: "Doctor Management", color: Colors.black, size: 20),
       ),
-      body:  FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection('doctor').orderBy("doctor_joining_date",descending: true).get(),
+      body:  StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('doctor').orderBy("doctor_joining_date",descending: true).snapshots(),
     builder: (context, snapshot) {
+      if (snapshot.connectionState==ConnectionState.waiting){
+        return const Center(child: CircularProgressIndicator(color: Color(themeColor),));
+      }
     if(snapshot.data!=null){
       return GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: Responsive.isMobile(context)?1:Responsive.isMobileLarge(context)?2:Responsive.isTablet(context)?4:Responsive.isDesktop(context)?6:1,
-          childAspectRatio: Responsive.isMobile(context)?3:Responsive.isMobileLarge(context)?2:Responsive.isTablet(context)?1.3:Responsive.isDesktop(context)?1.1:1.1,
+          crossAxisCount: ResponsiveWidget.isSmallScreen(context)?1:ResponsiveWidget.isMobileLarge(context)?2:ResponsiveWidget.isMediumScreen(context)?4:ResponsiveWidget.isLargeScreen(context)?6:1,
+          childAspectRatio: ResponsiveWidget.isSmallScreen(context)?3:ResponsiveWidget.isMobileLarge(context)?2:ResponsiveWidget.isMediumScreen(context)?1.3:ResponsiveWidget.isLargeScreen(context)?1.1:1.1,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),

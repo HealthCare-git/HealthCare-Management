@@ -33,9 +33,9 @@ class _DoctorIdDetailsState extends State<DoctorIdDetails> {
   Widget build(BuildContext context) {
 
 
-    return StreamBuilder<DocumentSnapshot>(
+    return StreamBuilder(
         stream: FirebaseFirestore.instance.doc('doctor/${widget.uid}').snapshots(),
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.data == null) {
             return Center(
               child: CircularProgressIndicator(),
@@ -74,9 +74,9 @@ class _DoctorIdDetailsState extends State<DoctorIdDetails> {
                             imageHeight:
                             MediaQuery.of(context).size.height*0.5,
                             imageWidth:
-                            MediaQuery.of(context).size.height*0.25,
+                            MediaQuery.of(context).size.height*0.5,
                             networkImageUrl: netUrlFront,
-                            path: 'Doctor/id_proof/${widget.uid}/frontAdhaar',
+                            path: 'Doctor/${widget.uid}/doctor_id_proof_front',
                             onPressed: (String string) {
                               Get.bottomSheet(Center(child: CircularProgressIndicator(color: Colors.white,),));
                               netUrlFront = string;
@@ -85,19 +85,55 @@ class _DoctorIdDetailsState extends State<DoctorIdDetails> {
                         const SizedBox(
                           height: 20,
                         ),
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ShowImage(
+                                imageUrl: snapshot.data!.get("doctor_id_proof_front"), name: 'Adhaar Front Side',
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.remove_red_eye,color: Color(themeColor),),
+                              Text1(text: "Preview ID Front Side", color: Color(themeColor), size: 20)
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Text("Back Pic"),
                         CustomImageUploader(
                             imageHeight:
                             MediaQuery.of(context).size.height*0.5,
                             imageWidth:
-                            MediaQuery.of(context).size.height*0.25,
+                            MediaQuery.of(context).size.height*0.5,
                             networkImageUrl: netUrlBack,
-                            path: 'Doctor/id_proof/${widget.uid}/backAdhaar',
+                            path: 'Doctor/${widget.uid}/doctor_id_proof_back',
                             onPressed: (String? string) {
                               Get.bottomSheet(Center(child: CircularProgressIndicator(color: Colors.white,),));
                               netUrlBack = string!;
                               Get.back();
                             }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ShowImage(
+                                imageUrl: snapshot.data!.get("doctor_id_proof_back"), name: 'Adhaar Back Side',
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.remove_red_eye,color: Color(themeColor),),
+                              Text1(text: "Preview ID Back Side", color: Color(themeColor), size: 20)
+                            ],
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(

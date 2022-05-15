@@ -21,8 +21,8 @@ class DoctorUserDetails extends StatelessWidget{
     return Scaffold(
       backgroundColor: context.theme.backgroundColor
       ,
-      body: FutureBuilder(
-          future: FirebaseFirestore.instance.doc('doctor/${id}').get(),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance.doc('doctor/${id}').snapshots(),
           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
             if(snapshot.data==null){
               return Center(child: SizedBox(

@@ -79,7 +79,7 @@ class TextFormsEdited extends StatelessWidget {
                   width: 10,
                   child: text=="Email"?const Icon(Icons.email_outlined):Icon(Icons.password),
                 ),
-                hintStyle: TextStyle(color:Colors.black54,fontSize: Responsive.isDesktop(context)?20:Responsive.isTablet(context)?15:0),
+                hintStyle: TextStyle(color:Colors.black54,fontSize: ResponsiveWidget.isLargeScreen(context)?20:ResponsiveWidget.isMediumScreen(context)?15:0),
               ),
             ),
           ),
@@ -132,6 +132,9 @@ class _CustomImageUploaderState extends State<CustomImageUploader> {
                   FirebaseStorage fs = FirebaseStorage.instance;
                   input.click();
                   input.onChange.listen((event) {
+                    Get.bottomSheet(const Center(
+                      child: CircularProgressIndicator(color: Colors.white,),
+                    ));
                     final file = input.files!.first;
                     final reader = FileReader();
                     reader.readAsDataUrl(file);
@@ -144,6 +147,7 @@ class _CustomImageUploaderState extends State<CustomImageUploader> {
                         imgUrl = downloadUrl;
                         widget.onPressed(downloadUrl);
                       });
+                      Get.back();
 
                     });
                   });
@@ -189,7 +193,7 @@ class FunctionCards extends StatelessWidget {
   const FunctionCards({
     Key? key,required this.text,required this.iconData,this.ontap
   }) : super(key: key);
-  final  ontap;
+  final ontap;
   final String text;
   final IconData iconData;
   @override
@@ -200,8 +204,8 @@ class FunctionCards extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.all(10),
         //margin: const EdgeInsets.fromLTRB(20, 0, 0, 20),
-        height: Responsive.isMobile(context)?70:150,
-        width: Responsive.isMobile(context)?70:150,
+        height: ResponsiveWidget.isSmallScreen(context)?70:150,
+        width: ResponsiveWidget.isSmallScreen(context)?70:150,
         decoration: BoxDecoration(
           color: context.theme.backgroundColor,
           borderRadius: BorderRadius.circular(10),
@@ -210,9 +214,9 @@ class FunctionCards extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(iconData,size: Responsive.isMobile(context)?20:40,),
+            Icon(iconData,size: ResponsiveWidget.isSmallScreen(context)?20:40,),
             SizedBox(height: 5,),
-            Text(text,style: Responsive.isMobile(context)?context.theme.textTheme.bodySmall:context.theme.textTheme.bodyMedium,)
+            Text(text,style: ResponsiveWidget.isSmallScreen(context)?context.theme.textTheme.bodySmall:context.theme.textTheme.bodyMedium,)
           ],
         ),
       ),
@@ -299,10 +303,46 @@ class TextFormsEdited2 extends StatelessWidget {
                 width: 10,
                 child: text=="Email"?const Icon(Icons.email_outlined):text=="Name"?const Icon(Icons.text_fields):const Icon(Icons.password),
               ),
-              hintStyle: TextStyle(color:Colors.black54,fontSize: Responsive.isDesktop(context)?20:Responsive.isTablet(context)?15:0),
+              hintStyle: TextStyle(color:Colors.black54,fontSize: ResponsiveWidget.isLargeScreen(context)?20:ResponsiveWidget.isMediumScreen(context)?15:0),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+
+class ShowImage extends StatelessWidget {
+  final String imageUrl;
+  final String name;
+
+  const ShowImage({required this.imageUrl,required this.name, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white10,
+        title: Row(
+          children: [
+            Text2(weigth: true, size: 0.02, text: name, color: Colors.black),
+          ],
+        ),
+        leading: InkWell(
+          onTap: (){
+            Get.back();
+          },
+          child: const Icon(Icons.arrow_back_ios,color: Colors.black,),
+        ),
+      ),
+      body: Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.black,
+        child: Image.network(imageUrl),
       ),
     );
   }

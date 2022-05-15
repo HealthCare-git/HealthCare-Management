@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget{
                 ),
               ),
               Expanded(
-                flex: Responsive.isDesktop(context)?4:6,
+                flex: ResponsiveWidget.isLargeScreen(context)?4:6,
                 child: Container(
                   margin: EdgeInsets.only(top: Get.height*0.1),
                   height: Get.height*0.9,
@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget{
       },
       iconColor:  Get.isDarkMode ? Colors.white54:Colors.black54,
       leading: Icon(iconData,),
-      title:Responsive.isDesktop(context)?Text("$text"):null,
+      title:ResponsiveWidget.isLargeScreen(context)?Text("$text"):null,
     );
   }
 }

@@ -26,7 +26,7 @@ class PublicProfile extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text1(text: "Edit Doctor Profile", color: Colors.black, size: 25),
+        title: Text1(text: "Public Profile", color: Colors.black, size: 25),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
