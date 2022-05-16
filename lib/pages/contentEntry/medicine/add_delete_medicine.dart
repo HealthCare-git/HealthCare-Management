@@ -36,169 +36,215 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
     TextEditingController newMedicinePrice = TextEditingController();
     TextEditingController newMedicineMargin = TextEditingController();
     return Scaffold(
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: Get.height * 0.05,
-                  ),
-                  Row(
-                    children: [
-                      Text2(text: "Medicine edit zone", color: const Color(themeColor), size: ResponsiveWidget.isSmallScreen(context)?0.02:0.03, weigth: true,),
-                      const SizedBox(width: 20,),
-                      const Icon(Icons.medication,size: 30,color: Color(themeColor),),
-                      Spacer(),
-                      TextButton(onPressed: (){
-                        Get.bottomSheet(
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: Get.width*0.1),
-                              height: Get.height*0.9,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                child: Column(
-                                  children: [
-                                    addCustomTextField(newMedicineName, "Medicine Name"),
-                                    addSamagriTextField(newMedicineDescription, "Medicine Description"),
-                                    addSamagriTextField(newMedicinePrice, "Medicine Price"),
-                                    addSamagriTextField(newMedicineMargin, "Medicine margin"),
+      body: Scrollbar(
+        isAlwaysShown: true,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: Get.height * 0.05,
+                    ),
+                    Row(
+                      children: [
+
+                        Text2(text: "Medicine edit zone", color: const Color(themeColor), size: ResponsiveWidget.isSmallScreen(context)?0.02:0.03, weigth: true,),
+                        const SizedBox(width: 20,),
+                        const Icon(Icons.medication,size: 30,color: Color(themeColor),),
+                        Spacer(),
+                        TextButton(onPressed: (){
+                          Get.bottomSheet(
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: Get.width*0.1),
+                                height: Get.height*0.9,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: Column(
+                                    children: [
+                                      addCustomTextField(newMedicineName, "Medicine Name"),
+                                      addSamagriTextField(newMedicineDescription, "Medicine Description"),
+                                      addSamagriTextField(newMedicinePrice, "Medicine Price"),
+                                      addSamagriTextField(newMedicineMargin, "Medicine margin"),
 
 
-                                    InkWell(
-                                        onTap: ()async{
-                                          // final List<String> names = await translate(newname.text);
-                                          // final List<String> description = await translate(newdescription.text);
+                                      InkWell(
+                                          onTap: ()async{
+                                            // final List<String> names = await translate(newname.text);
+                                            // final List<String> description = await translate(newdescription.text);
 
-                                          Get.defaultDialog(
-                                            title: "Warning",
-                                            content: const Text("Are you sure you want to add ?"),
-                                            onConfirm: () async{
-                                              Get.bottomSheet(
-                                                const Center(child: CircularProgressIndicator(color: Colors.white,),)
+                                            if (newMedicineName.text.trim()!="" &&
+                                                newMedicineDescription.text.trim()!="" &&
+                                                newMedicinePrice.text.trim()!="" &&
+                                                newMedicineMargin.text.trim()!=""){
+                                              Get.defaultDialog(
+                                                  title: "Warning",
+                                                  content: const Text("Are you sure you want to add ?"),
+                                                  onConfirm: () async{
+                                                    Get.bottomSheet(
+                                                        const Center(child: CircularProgressIndicator(color: Colors.white,),)
+                                                    );
+                                                    await FirebaseFirestore.instance.collection('inventory/medicines/folder').doc(mID).set({
+                                                      'medicine_description':newMedicineDescription.text.trim().capitalize,
+                                                      'medicine_name' :newMedicineName.text.trim(),
+                                                      'medicine_price' : newMedicinePrice.text,
+                                                      'medicine_margin': newMedicineMargin.text,
+                                                      'medicine_vendors':[],
+                                                      'medicine_picture':'',
+                                                      "id":mID,
+
+                                                    }).whenComplete(() => Get.back());
+                                                    Get.back();
+                                                    Get.showSnackbar(const GetSnackBar(message: 'Medicine Added',duration: Duration(seconds: 2),));
+                                                  },
+                                                  onCancel: (){
+                                                    Get.back();
+                                                    Get.showSnackbar(const GetSnackBar(message: 'Medicine Canceled',duration: Duration(seconds: 2),));
+                                                  }
                                               );
-                                              await FirebaseFirestore.instance.collection('inventory/medicines/folder').doc(mID).set({
-                                                'medicine_description':newMedicineDescription.text.trim().capitalize,
-                                                'medicine_name' :newMedicineName.text.trim(),
-                                                'medicine_price' : newMedicinePrice.text,
-                                                'medicine_margin': newMedicineMargin.text,
-                                                'medicine_vendors':[],
-                                                'medicine_picture':'',
-                                                "id":mID,
-
-                                              }).whenComplete(() => Get.back());
-                                              Get.back();
-                                              Get.showSnackbar(const GetSnackBar(message: 'Medicine Added',duration: Duration(seconds: 2),));
-                                            },
-                                            onCancel: (){
-                                              Get.back();
-                                              Get.showSnackbar(const GetSnackBar(message: 'Medicine Canceled',duration: Duration(seconds: 2),));
                                             }
-                                          );
+                                            else{
+                                              Get.showSnackbar(const GetSnackBar(message: 'All Fields are mandatory to be filled!',duration: Duration(seconds: 2),));
+                                            }
 
 
 
-                                        },
-                                        child: redButton('Submit'))
 
-                                  ],
+                                          },
+                                          child: redButton('Submit')
+                                      )
+
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            backgroundColor: context.theme.backgroundColor,
-                            isScrollControlled: true
-                        );
-                      }, child: Text2(weigth: true, size: 0.017, text: "Add New", color: const Color(themeColor)))
-                    ],
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.07,
-                  ),
-                  StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection("inventory/medicines/folder")
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.data==null) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                              backgroundColor: context.theme.backgroundColor,
+                              isScrollControlled: true
                           );
-                        }
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(
-                            child: SizedBox(
-                              height: 50,
-                              width: 50,
+                        }, child: Text2(weigth: true, size: 0.017, text: "Add New", color: const Color(themeColor)))
+                      ],
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.07,
+                    ),
+                    StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("inventory/medicines/folder")
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.data==null) {
+                            return const Center(
                               child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              //semanticChildCount: 10,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.size,
-                              itemBuilder: (_, index) {
-                                TextEditingController _medicinePrice = TextEditingController(text: snapshot.data!.docs[index]['medicine_price'] );
-                                TextEditingController _medicineName = TextEditingController(text: snapshot.data!.docs[index]['medicine_name'] );
-                                TextEditingController _medicineDescription = TextEditingController(text: snapshot.data!.docs[index]['medicine_description'] );
-                                TextEditingController _medicineMargin = TextEditingController(text: snapshot.data!.docs[index]['medicine_margin'] );
-                                return ExpansionTile(
-                                  title: Text(
-                                      "${snapshot.data!.docs[index]['medicine_name']}"),
-                                  trailing: const Text("Edit"),
-                                  onExpansionChanged: (value) {
-                                    snapshot.data!.docs.toList().forEach((element) {
-                                      TextEditingController(text: "${snapshot.data!.docs[index]['medicine_name']}");
-                                    });
-                                  },
-                                  children: [
-                                    addCustomTextField(_medicineName, "Medicine Name"),
-                                    addSamagriTextField(_medicineDescription, "Medicine Description"),
-                                    addSamagriTextField(_medicinePrice, "Medicine Price"),
-                                    addSamagriTextField(_medicineMargin, "Medicine margin"),
+                            );
+                          }
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                                //semanticChildCount: 10,
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.size,
+                                itemBuilder: (_, index) {
+                                  TextEditingController _medicinePrice = TextEditingController(text: snapshot.data!.docs[index]['medicine_price'] );
+                                  TextEditingController _medicineName = TextEditingController(text: snapshot.data!.docs[index]['medicine_name'] );
+                                  TextEditingController _medicineDescription = TextEditingController(text: snapshot.data!.docs[index]['medicine_description'] );
+                                  TextEditingController _medicineMargin = TextEditingController(text: snapshot.data!.docs[index]['medicine_margin'] );
+                                  return ExpansionTile(
+                                    title: Text(
+                                        "${snapshot.data!.docs[index]['medicine_name']}"),
+                                    trailing: const Text("Edit"),
+                                    onExpansionChanged: (value) {
+                                      snapshot.data!.docs.toList().forEach((element) {
+                                        TextEditingController(text: "${snapshot.data!.docs[index]['medicine_name']}");
+                                      });
+                                    },
+                                    children: [
+                                      addCustomTextField(_medicineName, "Medicine Name"),
+                                      addSamagriTextField(_medicineDescription, "Medicine Description"),
+                                      addSamagriTextField(_medicinePrice, "Medicine Price"),
+                                      addSamagriTextField(_medicineMargin, "Medicine margin"),
 
-                                    Row(
-                                      crossAxisAlignment:CrossAxisAlignment.center,
-                                      mainAxisAlignment:MainAxisAlignment.center,
-                                      children: [
-                                        InkWell(
-                                            onTap: (){
-                                              FirebaseFirestore.instance.doc('inventory/medicines/folder/${snapshot.data!.docs[index]['id']}').update({
-                                                'medicine_description':_medicineDescription.text.trim().capitalize,
-                                                'medicine_name' :_medicineName.text.trim(),
-                                                'medicine_price' : _medicinePrice.text.trim(),
-                                                'medicine_margin': _medicineMargin.text.trim(),
+                                      Row(
+                                        crossAxisAlignment:CrossAxisAlignment.center,
+                                        mainAxisAlignment:MainAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                              onTap: ()async{
+                                                if (_medicineName.text.trim()!="" &&
+                                                    _medicineDescription.text.trim()!="" &&
+                                                    _medicinePrice.text.trim()!="" &&
+                                                    _medicineMargin.text.trim()!=""){
+                                                  Get.defaultDialog(
+                                                      title: "Warning",
+                                                      content: const Text("Are you sure you want to Update ?"),
+                                                      onConfirm: () async{
+                                                        Get.bottomSheet(
+                                                            const Center(child: CircularProgressIndicator(color: Colors.white,),)
+                                                        );
+                                                        await FirebaseFirestore.instance.doc('inventory/medicines/folder/${snapshot.data!.docs[index]['id']}').update({
+                                                          'medicine_description':_medicineDescription.text.trim().capitalize,
+                                                          'medicine_name' :_medicineName.text.trim(),
+                                                          'medicine_price' : _medicinePrice.text.trim(),
+                                                          'medicine_margin': _medicineMargin.text.trim(),
 
-                                              });
-                                              Get.showSnackbar(const GetSnackBar(message: 'Updated Medicine',duration: Duration(seconds: 2),));
-                                            },
-                                            child: redButton('Update')
-                                        ),
-                                        InkWell(
-                                            onTap: (){
-                                              FirebaseFirestore.instance.doc('inventory/medicines/folder/${snapshot.data!.docs[index]['id']}').delete();
-                                              Get.showSnackbar(const GetSnackBar(message: 'Updated Medicine',duration: Duration(seconds: 2),));
-                                            },
-                                            child: redButton('Delete'))
-                                      ],
-                                    ),
+                                                        }).whenComplete(() => Get.back());
+                                                        Get.showSnackbar(const GetSnackBar(message: 'Medicine Updated',duration: Duration(seconds: 2),));
+                                                      },
+                                                      onCancel: (){
+                                                        Get.back();
+                                                        Get.showSnackbar(const GetSnackBar(message: 'Medicine Update Canceled',duration: Duration(seconds: 2),));
+                                                      }
+                                                  );
 
-                                  ],
-                                );
-                              });
-                        }
-                        return Text("");
-                      }),
-                ],
-              ),
-            )
-          ],
+                                                }
+
+                                              },
+                                              child: redButton('Update')
+                                          ),
+                                          InkWell(
+                                              onTap: ()async{
+                                                Get.defaultDialog(
+                                                  confirmTextColor: Colors.white,
+                                                    title: "Warning",
+                                                    content: const Text("Are you sure you want to Delete ?"),
+                                                    onConfirm: () async{
+                                                      await FirebaseFirestore.instance.doc('inventory/medicines/folder/${snapshot.data!.docs[index]['id']}').delete();
+                                                      Get.showSnackbar(const GetSnackBar(message: 'Medicine Deleted',duration: Duration(seconds: 2),));
+                                                    },
+                                                    onCancel: (){
+                                                      Get.back();
+                                                      Get.showSnackbar(const GetSnackBar(message: 'Medicine Deletion Canceled',duration: Duration(seconds: 2),));
+                                                    }
+                                                );
+
+                                              },
+                                              child: redButton('Delete'))
+                                        ],
+                                      ),
+
+                                    ],
+                                  );
+                                });
+                          }
+                          return Text("");
+                        }),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

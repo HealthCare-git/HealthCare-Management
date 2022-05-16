@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/constants.dart';
+import '../../../utils/responsive.dart';
 import '../../../utils/reusable_widgets.dart';
 import '../../../utils/texts.dart';
 
@@ -26,7 +27,7 @@ class DoctorTextDetail extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text1(text: "Edit Doctor Profile", color: Colors.black, size: 25),
+        title: Text1(text: "Edit Doctor Profile", color: Colors.black, size: ResponsiveWidget.isSmallScreen(context)?15:25),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -58,7 +59,7 @@ class DoctorTextDetail extends StatelessWidget {
                       TextEditingController _onlineTime = TextEditingController(text: element['online_practice_time']==""?"":"${element['online_practice_time']}");
                       TextEditingController _offlineTime = TextEditingController(text: element['offline_practice_time']==""?"":"${element['offline_practice_time']}");
                       TextEditingController _otherServices = TextEditingController(text: element['other_services']==""?"":"${element['other_services']}");
-                      TextEditingController _relatedHospital = TextEditingController(text: element['related_hospital']==""?"":"${element['related_hospital']}");
+                      TextEditingController _relatedHospital = TextEditingController(text: element['related_hospital_or_clinic']==""?"":"${element['related_hospital_or_clinic']}");
 
                       return Column(
                         children:   [
@@ -112,20 +113,20 @@ class DoctorTextDetail extends StatelessWidget {
                                         "doctor_experience":_experience.text.trim(),
                                         "about_you":_aboutYou.text.trim(),
                                         "doctor_contact_number":_contactNumber.text.trim(),
-                                        "instituion_name":"",
-                                        "medicail_degree_year":"",
-                                        "doctor_certificate":"",
-                                        "doctor_id_proof_front":"",
-                                        "doctor_id_proof_back":"",
+                                        // "instituion_name":"",
+                                        // "medicail_degree_year":"",
+                                        // "doctor_certificate":"",
+                                        // "doctor_id_proof_front":"",
+                                        // "doctor_id_proof_back":"",
                                         "doctor_specialization":_specialization.text.trim(),
                                         "doctor_fees":_fee.text.trim(),
                                         "online_practice_time":_onlineTime.text.trim(),
                                         "offline_practice_time":_offlineTime.text.trim(),
-                                        "consulting_duration":"",
+                                        //"consulting_duration":"",
                                         "other_services":_otherServices.text.trim(),
-                                        "doctor_awards":"",
+                                        //"doctor_awards":"",
                                         "doctor_location":_location.text.trim(),
-                                        "related_hospital":_relatedHospital.text.trim(),
+                                        "related_hospital_or_clinic":_relatedHospital.text.trim(),
                                       }).onError((error, stackTrace) => print(error));
                                       Get.back();
                                       Get.snackbar("Data Saved", "Your data has been save succesfully");

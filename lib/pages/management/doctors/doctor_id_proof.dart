@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/constants.dart';
+import '../../../utils/responsive.dart';
 import '../../../utils/reusable_widgets.dart';
 import 'package:get/get.dart';
 
@@ -59,7 +60,7 @@ class _DoctorIdDetailsState extends State<DoctorIdDetails> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
-              title: Text1(text: "Doctor ID Proof", color: Colors.black, size: 25),
+              title: Text1(text: "Doctor ID Proof", color: Colors.black, size: ResponsiveWidget.isSmallScreen(context)?15:25),
             ),
             body: Center(
               child: Form(

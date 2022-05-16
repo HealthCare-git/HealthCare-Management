@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/doctorController.dart';
+import '../../../utils/responsive.dart';
 import '../../../utils/texts.dart';
 
 class DoctorSetting extends StatelessWidget{
@@ -10,6 +11,9 @@ class DoctorSetting extends StatelessWidget{
   DoctorSetting({required this.query});
   @override
   Widget build(BuildContext context) {
+
+    double height = Get.height;
+    double width = Get.width;
 
     return GetX<DoctorSettingController>(
         init:  DoctorSettingController(query: query),
@@ -29,7 +33,7 @@ class DoctorSetting extends StatelessWidget{
               AppBar(
                 elevation: 0,
                 backgroundColor: Colors.white,
-                title: Text1(text: "Doctor Setting", color: Colors.black, size: 25),
+                title: Text1(text: "Doctor Setting", color: Colors.black, size: ResponsiveWidget.isSmallScreen(context)?15:25),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -59,9 +63,7 @@ class DoctorSetting extends StatelessWidget{
                 ],
               ),
               ListTile(
-                title:  Text(
-                  'Verification',
-                ),
+                title:  Text2(weigth: false, size: ResponsiveWidget.isSmallScreen(context)?0.015:0.02, text: "Verification", color: Colors.black),
                 trailing:  Switch(
                   value: controller.doctorData.value.verification,
                   onChanged: (bool state) {
@@ -71,11 +73,9 @@ class DoctorSetting extends StatelessWidget{
                 ),
               ),
               ListTile(
-                  title: const Text(
-                    'Name',
-                  ),
+                  title:Text2(weigth: false, size: ResponsiveWidget.isSmallScreen(context)?0.015:0.02, text: "Name", color: Colors.black),
                   trailing: SizedBox(
-                    width: 200,
+                    width: width*0.2,
                     child: TextFormField(
                       enabled: controller.doctorData.value.edit,
                       decoration: const InputDecoration(
@@ -87,11 +87,9 @@ class DoctorSetting extends StatelessWidget{
 
               ),
               ListTile(
-                  title: const Text(
-                    'Location',
-                  ),
+                  title: Text2(weigth: false, size: ResponsiveWidget.isSmallScreen(context)?0.015:0.02, text: "Location", color: Colors.black),
                   trailing: SizedBox(
-                    width: 200,
+                    width: width*0.2,
                     child: TextFormField(
                       enabled: controller.doctorData.value.edit,
                       decoration: const InputDecoration(
@@ -103,11 +101,9 @@ class DoctorSetting extends StatelessWidget{
 
               ),
               ListTile(
-                  title: const Text(
-                    'Experience',
-                  ),
+                  title:Text2(weigth: false, size: ResponsiveWidget.isSmallScreen(context)?0.015:0.02, text: "Experience", color: Colors.black),
                   trailing: SizedBox(
-                    width: 200,
+                    width: width*0.2,
                     child: TextFormField(
                       enabled: controller.doctorData.value.edit,
                       decoration: const InputDecoration(
@@ -119,11 +115,9 @@ class DoctorSetting extends StatelessWidget{
 
               ),
               ListTile(
-                  title: const Text(
-                    'Mobile',
-                  ),
+                  title: Text2(weigth: false, size: ResponsiveWidget.isSmallScreen(context)?0.015:0.02, text: "Mobile", color: Colors.black),
                   trailing: SizedBox(
-                    width: 200,
+                    width: width*0.2,
                     child: TextFormField(
                       enabled: controller.doctorData.value.edit,
                       decoration: const InputDecoration(
@@ -135,11 +129,9 @@ class DoctorSetting extends StatelessWidget{
 
               ),
               ListTile(
-                  title: const Text(
-                    'Email',
-                  ),
+                  title: Text2(weigth: false, size: ResponsiveWidget.isSmallScreen(context)?0.015:0.02, text: "Email", color: Colors.black),
                   trailing: SizedBox(
-                    width: 200,
+                    width: width*0.2,
                     child: TextFormField(
                       enabled: controller.doctorData.value.edit,
                       decoration: const InputDecoration(
@@ -151,12 +143,10 @@ class DoctorSetting extends StatelessWidget{
 
               ),
               ListTile(
-                  title: const Text(
-                    'About You',
-                  ),
+                  title: Text2(weigth: false, size: ResponsiveWidget.isSmallScreen(context)?0.015:0.02, text: "About You", color: Colors.black),
                   trailing: SizedBox(
-                    width: 300,
-                    height: 200,
+                    width: width*0.2,
+                    height: height*0.2,
                     child: TextFormField(
                       enabled: controller.doctorData.value.edit,
                       keyboardType: TextInputType.multiline,

@@ -8,6 +8,7 @@ import 'package:healthcare_management/pages/management/patients/personal_profile
 import 'package:healthcare_management/pages/management/patients/public_profile.dart';
 import 'package:healthcare_management/utils/constants.dart';
 
+import '../../../utils/responsive.dart';
 import 'medical_profile.dart';
 
 class PatientUserDetails extends StatelessWidget{
@@ -19,8 +20,7 @@ class PatientUserDetails extends StatelessWidget{
     double height = Get.height;
     double width = Get.width;
     return Scaffold(
-      backgroundColor: context.theme.backgroundColor
-      ,
+      backgroundColor: context.theme.backgroundColor,
       body: FutureBuilder(
           future: FirebaseFirestore.instance.doc('patients/$id/PublicProfile/${id.substring(4)}').get(),
           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
@@ -45,6 +45,7 @@ class PatientUserDetails extends StatelessWidget{
                       indicatorColor: Colors.orangeAccent,
                       isScrollable: true,
                       indicatorSize: TabBarIndicatorSize.tab,
+                      labelPadding: EdgeInsets.symmetric(horizontal: ResponsiveWidget.isSmallScreen(context)?8:10),
                       indicator:const BubbleTabIndicator(
 
                         indicatorHeight: 25.0,
@@ -93,8 +94,8 @@ class PatientUserDetails extends StatelessWidget{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: height * 0.4,
-                              width: width * 0.4,
+                              height: ResponsiveWidget.isSmallScreen(context)?height * 0.1:height * 0.4,
+                              width: ResponsiveWidget.isSmallScreen(context)?width * 0.13:width * 0.4,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
@@ -107,7 +108,7 @@ class PatientUserDetails extends StatelessWidget{
                             ),
                             SelectableText(
                               '${snapshot.data!.get('name')}',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?height*0.015:height*0.02),
                               autofocus: true,
                             ),
                             const SizedBox(
@@ -115,7 +116,7 @@ class PatientUserDetails extends StatelessWidget{
                             ),
                             Row(
                               children: [
-                                const  Icon(
+                                ResponsiveWidget.isSmallScreen(context)?Text(""):const  Icon(
                                   Icons.location_history,
 
                                   size: 14,
@@ -127,14 +128,15 @@ class PatientUserDetails extends StatelessWidget{
                                   child: Text(
                                     'Location : ${snapshot.data!.get('location')}',
                                     style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
+                                    TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?height*0.012:height*0.018, color: Colors.grey),
                                   ),
                                 )
                               ],
                             ),
-                            SelectableText(
+                            ResponsiveWidget.isSmallScreen(context)?const Text(""):SelectableText(
                               'Uid : ${snapshot.data!['id']}',
-                              style: TextStyle(fontSize: 10, color: Colors.grey),
+                              style:
+                              TextStyle(fontSize: height*0.018, color: Colors.grey),
                             ),
                           ],
                         ),

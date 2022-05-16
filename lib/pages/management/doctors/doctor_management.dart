@@ -21,7 +21,7 @@ class DoctorManagement extends StatelessWidget {
           },
           child: const Icon(Icons.arrow_back,color: Colors.black,),
         ),
-        title: Text1(text: "Doctor Management", color: Colors.black, size: 20),
+        title: Text1(text: "Doctor Management", color: Colors.black, size: ResponsiveWidget.isSmallScreen(context)?15:25),
       ),
       body:  StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('doctor').orderBy("doctor_joining_date",descending: true).snapshots(),
@@ -52,10 +52,13 @@ class DoctorManagement extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   color: const Color(themeColor2)
                 ),
-                child: Column(
+                child: ResponsiveWidget.isSmallScreen(context)?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    snapshot.data!.docs[index]["doctor_image"] == "" ? const CircleAvatar(
-                      radius: 50,
+                    snapshot.data!.docs[index]["doctor_image"] == "" ?
+                    CircleAvatar(
+                      radius: ResponsiveWidget.isSmallScreen(context)?30:50,
                       backgroundColor: Color(themeColor2),
                       backgroundImage: AssetImage("user.png"),
                     ) : CircleAvatar(
@@ -64,10 +67,36 @@ class DoctorManagement extends StatelessWidget {
                       backgroundImage: CachedNetworkImageProvider(
                         '${snapshot.data!.docs[index]["doctor_image"]}',),
                     ),
-                    Text(snapshot.data!.docs[index]["doctor_name"],),
-                    Text(snapshot.data!.docs[index]["doctor_email"],),
-                    Text(snapshot.data!.docs[index]["doctor_contact_number"],),
+                    Column(
+                      children: [
+                        Text1(text: snapshot.data!.docs[index]["doctor_name"], color: Colors.black, size: 20),
+                        //Text(,),
+                        Text(snapshot.data!.docs[index]["doctor_email"],),
+                        Text(snapshot.data!.docs[index]["doctor_contact_number"],),
+                      ],
+                    )
+
                   ],
+                ):
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      snapshot.data!.docs[index]["doctor_image"] == "" ? const CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Color(themeColor2),
+                        backgroundImage: AssetImage("user.png"),
+                      ) : CircleAvatar(
+                        radius: 40,
+                        //backgroundColor: Color(themeColor2),
+                        backgroundImage: CachedNetworkImageProvider(
+                          '${snapshot.data!.docs[index]["doctor_image"]}',),
+                      ),
+                      Text1(text: snapshot.data!.docs[index]["doctor_name"], color: Colors.black, size: 20),
+                      Text(snapshot.data!.docs[index]["doctor_email"],),
+                      Text(snapshot.data!.docs[index]["doctor_contact_number"],),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:healthcare_management/pages/management/doctors/settings.dart';
 import 'package:healthcare_management/utils/constants.dart';
 
+import '../../../utils/responsive.dart';
 import 'doctor_certificates.dart';
 import 'doctor_id_proof.dart';
 import 'doctor_text_detail.dart';
@@ -40,13 +41,14 @@ class DoctorUserDetails extends StatelessWidget{
                   ),
                   actions: [
                     TabBar(
-                      labelStyle: GoogleFonts.aBeeZee(color:Colors.white),
+                      labelStyle: GoogleFonts.aBeeZee(color:Colors.white,fontSize: ResponsiveWidget.isSmallScreen(context)?10:15),
                       labelColor: Get.isDarkMode?Colors.white:Colors.black54,
-                      indicatorColor: Colors.orangeAccent,
+                      indicatorColor: const Color(themeColor2),
                       isScrollable: true,
                       indicatorSize: TabBarIndicatorSize.tab,
-                      indicator:const BubbleTabIndicator(
+                      labelPadding: EdgeInsets.symmetric(horizontal: ResponsiveWidget.isSmallScreen(context)?8:10),
 
+                      indicator:const BubbleTabIndicator(
                         indicatorHeight: 25.0,
                         indicatorColor: Color(themeColor2),
                         tabBarIndicatorSize: TabBarIndicatorSize.tab,
@@ -102,8 +104,8 @@ class DoctorUserDetails extends StatelessWidget{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: height * 0.4,
-                              width: width * 0.4,
+                              height: ResponsiveWidget.isSmallScreen(context)?height * 0.1:height * 0.4,
+                              width: ResponsiveWidget.isSmallScreen(context)?width * 0.13:width * 0.4,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
@@ -119,7 +121,7 @@ class DoctorUserDetails extends StatelessWidget{
                                 Expanded(
                                     child: SelectableText(
                                       '${snapshot.data!.get('doctor_name')}',
-                                      style: TextStyle(fontSize: 20),
+                                      style: TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?height*0.015:height*0.02),
                                       autofocus: true,
                                     )),
                                 const SizedBox(
@@ -144,7 +146,7 @@ class DoctorUserDetails extends StatelessWidget{
                             ),
                             Row(
                               children: [
-                                const  Icon(
+                                ResponsiveWidget.isSmallScreen(context)?Text(""):const  Icon(
                                   Icons.location_history,
 
                                   size: 14,
@@ -154,21 +156,26 @@ class DoctorUserDetails extends StatelessWidget{
                                 ),
                                 Expanded(
                                   child: Text(
+                                    ResponsiveWidget.isSmallScreen(context)?
+                                    '${snapshot.data!.get('doctor_location')}':
                                     'Location : ${snapshot.data!.get('doctor_location')}',
                                     style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
+                                    TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?height*0.012:height*0.018, color: Colors.grey),
                                   ),
                                 )
                               ],
                             ),
                             SelectableText(
+                              ResponsiveWidget.isSmallScreen(context)?
+                              'Contact :\n${snapshot.data!['doctor_contact_number']}':
                               'Contact : ${snapshot.data!['doctor_contact_number']}',
-                              style: TextStyle(fontSize: 14, color: Colors.grey),
+                              style:
+                              TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?height*0.012:height*0.018, color: Colors.grey),
                               autofocus: true,
                             ),
-                            SelectableText(
+                            ResponsiveWidget.isSmallScreen(context)?const Text(""):SelectableText(
                               'Uid : ${snapshot.data!['id']}',
-                              style: TextStyle(fontSize: 10, color: Colors.grey),
+                              style: TextStyle(fontSize: height*0.018, color: Colors.grey),
                             ),
                           ],
                         ),
