@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthcare_management/pages/contentEntry/medicine/add_delete_medicine.dart';
+import 'package:healthcare_management/pages/contentEntry/video_section/video_tab.dart';
 import 'package:healthcare_management/pages/home/home_page.dart';
 import 'package:healthcare_management/pages/management/doctors/doctor_management.dart';
 import 'package:healthcare_management/pages/management/doctors/doctor_user_detail.dart';
@@ -50,13 +51,14 @@ class MyApp extends StatelessWidget {
       getPages: [
       GetPage(name: '/home/:tab', page: ()=>HomePage(),
       children: [
-        GetPage(name: '/doctor_management', page: ()=>DoctorManagement(),
+        GetPage(name: '/doctor_management', page: ()=>const DoctorManagement(),
           children: [
             GetPage(name: '/:id', page: ()=>DoctorUserDetails(),)
           ]
         ),
         GetPage(name: '/medicine', page:()=>MedicineAddDelete()),
-        GetPage(name: '/patient_management', page: ()=>PatientManagement(),
+        GetPage(name: '/video/:tab', page:()=>VideoTab()),
+        GetPage(name: '/patient_management', page: ()=>const PatientManagement(),
             children: [
               GetPage(name: '/:id', page: ()=>PatientUserDetails(),)
             ]

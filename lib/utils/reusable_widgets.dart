@@ -430,6 +430,87 @@ class IconTextForm extends StatelessWidget {
 }
 
 
+Container redButton(String text) {
+  return Container(
+    margin: EdgeInsets.all(20),
+    padding: const EdgeInsets.all(10),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.red, width: 2.0)),
+    child: Text(text),
+  );
+}
+
+
+class MenuBarTile extends StatelessWidget{
+  const MenuBarTile({Key? key,required this.tab, required this.selectedTab, this.onTap,required this.iconData,required this.titleText}) : super(key: key);
+  final String selectedTab;
+  final onTap;
+  final IconData iconData;
+  final String titleText;
+  final String tab;
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      selected: tab == selectedTab,
+      textColor: Get.isDarkMode ? Colors.white54 : Colors.black54,
+      selectedColor: Get.isDarkMode ? Colors.white : Colors.black,
+      onTap: onTap,
+      iconColor: Get.isDarkMode ? Colors.white54 : Colors.black54,
+      leading: Icon(
+        iconData,
+      ),
+      title: ResponsiveWidget.isLargeScreen(context) ? Text(titleText) : null,
+    );
+  }
+
+}
+
+
+class EventCards extends StatelessWidget {
+  const EventCards({
+    Key? key,required this.text,required this.iconData,this.ontap, required this.remove,this.deleteOntap
+  }) : super(key: key);
+  final ontap;
+  final deleteOntap;
+  final String text;
+  final String iconData;
+  final bool remove;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      //hoverColor: Colors.white38,
+      onTap: remove?deleteOntap:ontap,
+      child: Container(
+        margin: EdgeInsets.all(10),
+        //margin: const EdgeInsets.fromLTRB(20, 0, 0, 20),
+        height: ResponsiveWidget.isSmallScreen(context)?70:150,
+        width: ResponsiveWidget.isSmallScreen(context)?70:150,
+        decoration: BoxDecoration(
+          color: context.theme.backgroundColor,
+          borderRadius: BorderRadius.circular(10),
+
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.centerRight,
+              height:  ResponsiveWidget.isSmallScreen(context)?40:70,
+              width:  ResponsiveWidget.isSmallScreen(context)?60:100,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(image: NetworkImage(iconData),fit: BoxFit.cover)
+              ),
+              child: remove?Icon(Icons.delete_forever_outlined):null,
+            ),
+            const SizedBox(height: 5,),
+            Text(text,style: TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?8:14))
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 
 

@@ -24,9 +24,13 @@ class ContentEntryView extends StatelessWidget{
                 FunctionCards(iconData: CupertinoIcons.news ,text: 'Health Feeds',ontap:()async{
 
                 }),
-                FunctionCards(iconData: Icons.medication,text: 'Medicines',ontap: (){
-                  Get.toNamed('/home/${AppStrings.CONTENT_ENTRY}/medicine');
-                },),
+                FunctionCards(
+                  iconData: Icons.medication,text: 'Medicines',
+                  ontap: (){Get.toNamed('/home/${AppStrings.CONTENT_ENTRY}/medicine');},
+                ),
+                FunctionCards(
+                  iconData: CupertinoIcons.videocam ,text: 'Add Video',
+                  ontap: (){Get.toNamed('/home/${AppStrings.CONTENT_ENTRY}/video/up');},),
 
               ],
             )
