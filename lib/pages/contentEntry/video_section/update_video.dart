@@ -28,6 +28,7 @@ class _UpdateVideoState extends State<UpdateVideo> {
 
   @override
   Widget build(BuildContext context) {
+    AddVideoController addVideoController=Get.put(AddVideoController());
     TextEditingController video_key = TextEditingController(text:widget.video_key);
     TextEditingController video_name = TextEditingController(text:widget.video_name);
     TextEditingController video_category = TextEditingController(text:widget.video_category);
@@ -49,9 +50,25 @@ class _UpdateVideoState extends State<UpdateVideo> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  DropdownButton<String>(
+                    items: <String>[
+                      'gym',
+                      'yoga and meditation',
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    hint: Obx(() => Text(addVideoController.typeOfVideo.value)),
+                    onChanged: (value) {
+                      addVideoController.change(value);
+                      print(addVideoController.typeOfVideo);
+                    },
+                  ),
                   addCustomTextField(video_key, 'Video Key'),
                   addCustomTextField(video_name, 'Video Name'),
-                  addCustomTextField(video_category, 'Video Category'),
+                  //addCustomTextField(video_category, 'Video Category'),
                   addCustomTextField(about, 'About Video'),
                   addCustomTextField(tittle, 'Title'),
                   addCustomTextField(video_id, 'Video Id'),
@@ -77,6 +94,7 @@ class _UpdateVideoState extends State<UpdateVideo> {
                                 'video_thumbnail':video_thumbnail.text.trim(),
                                 "live":live.text.trim(),
                                 "timestamp":FieldValue.serverTimestamp(),
+                              "video_category":addVideoController.typeOfVideo.value,
                               }).whenComplete(() => Get.back());
 
                               // await FirebaseFirestore.instance

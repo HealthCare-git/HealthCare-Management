@@ -18,7 +18,9 @@ class ContentEntryView extends StatelessWidget{
             padding: const EdgeInsets.all(30.0),
             child: Wrap(
               children: [
-                FunctionCards(iconData: CupertinoIcons.tv_circle ,text: 'Adds',ontap: (){},),
+                FunctionCards(iconData: CupertinoIcons.tv_circle ,text: 'Post',ontap: (){
+                  Get.toNamed('/home/${AppStrings.CONTENT_ENTRY}/post/up');
+                },),
                 FunctionCards(iconData: CupertinoIcons.desktopcomputer,text: 'Events',ontap: (){},),
                 FunctionCards(iconData: CupertinoIcons.percent,text: 'Offers',ontap: (){},),
                 FunctionCards(iconData: CupertinoIcons.news ,text: 'Health Feeds',ontap:()async{

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthcare_management/pages/contentEntry/video_section/controller/add_video_controller.dart';
 
 import '../../../utils/reusable_widgets.dart';
 import '../medicine/add_delete_medicine.dart';
@@ -9,6 +10,7 @@ class AddVideo extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
+    AddVideoController addVideoController=Get.put(AddVideoController());
     TextEditingController video_key = TextEditingController();
     TextEditingController video_name = TextEditingController();
     TextEditingController video_category = TextEditingController();
@@ -22,9 +24,26 @@ class AddVideo extends StatelessWidget{
           child: Column(
             children: [
 
+              DropdownButton<String>(
+                items: <String>[
+                  'gym',
+                  'yoga and meditation',
+                ].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                hint: Obx(() => Text(addVideoController.typeOfVideo.value)),
+                onChanged: (value) {
+                  addVideoController.change(value);
+                  print(addVideoController.typeOfVideo);
+                },
+              ),
+
               addCustomTextField(video_key, 'Video Key'),
               addCustomTextField(video_name, 'Video Name'),
-              addCustomTextField(video_category, 'Video Category'),
+              //addCustomTextField(video_category, 'Video Category'),
               addCustomTextField(about, 'About Video'),
               addCustomTextField(tittle, 'Title'),
               addCustomTextField(video_id, 'Video Id'),
@@ -56,7 +75,7 @@ class AddVideo extends StatelessWidget{
                               'video_key' : video_key.text.trim(),
                               'video_name' : video_name.text.trim(),
                               'about' : about.text.trim(),
-                              "video_category":video_category.text.trim(),
+                              "video_category":addVideoController.typeOfVideo.value,
                               'tittle' :tittle.text.trim(),
                               'video_id' :video_id.text.trim(),
                               'video_thumbnail':video_thumbnail.text.trim(),

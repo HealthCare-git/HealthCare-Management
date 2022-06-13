@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthcare_management/pages/contentEntry/medicine/add_delete_medicine.dart';
+import 'package:healthcare_management/pages/contentEntry/post_section/view/post_tab_view.dart';
 import 'package:healthcare_management/pages/contentEntry/video_section/video_tab.dart';
 import 'package:healthcare_management/pages/home/home_page.dart';
 import 'package:healthcare_management/pages/management/doctors/doctor_management.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
           ]
         ),
         GetPage(name: '/medicine', page:()=>MedicineAddDelete()),
+        GetPage(name: '/post/:tab', page: ()=>PostTab(),),
         GetPage(name: '/video/:tab', page:()=>VideoTab()),
         GetPage(name: '/patient_management', page: ()=>const PatientManagement(),
             children: [
