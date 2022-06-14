@@ -478,7 +478,7 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
                                                   //image: NetworkImage(${snapshot.data!.docs[index]["image"]},),
                                                   image: DecorationImage(
-                                                    image: NetworkImage(snapshot.data!.docs[index]["image"],),
+                                                    image: CachedNetworkImageProvider(snapshot.data!.docs[index]["image"],),
                                                   ),
                                                   color:  Color(int.parse(snapshot.data!.docs[index]["bgcolor"]!))
                                               ),
