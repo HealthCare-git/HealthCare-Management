@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthcare_management/pages/contentEntry/medicine/add_delete_medicine.dart';
+import 'package:healthcare_management/pages/contentEntry/medicine/catagory_medicine.dart';
+import 'package:healthcare_management/pages/contentEntry/notification/notifications.dart';
 import 'package:healthcare_management/pages/contentEntry/post_section/view/post_tab_view.dart';
 import 'package:healthcare_management/pages/contentEntry/video_section/video_tab.dart';
 import 'package:healthcare_management/pages/home/home_page.dart';
@@ -48,8 +50,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: Themes.light,
-      initialRoute: '/home/${AppStrings.MANAGEMENT}',
+      initialRoute: '/home/${AppStrings.CONTENT_ENTRY}',
       getPages: [
+
       GetPage(name: '/home/:tab', page: ()=>HomePage(),
       children: [
         GetPage(name: '/doctor_management', page: ()=>const DoctorManagement(),
@@ -57,9 +60,15 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/:id', page: ()=>DoctorUserDetails(),)
           ]
         ),
-        GetPage(name: '/medicine', page:()=>MedicineAddDelete()),
+        GetPage(name: '/medicine', page:()=>MedicineAddDelete(),children: [
+          GetPage(name: '/catagory', page: ()=>CatagoryMedicine(),)
+        ]),
         GetPage(name: '/post/:tab', page: ()=>PostTab(),),
         GetPage(name: '/video/:tab', page:()=>VideoTab()),
+        GetPage(
+          name: '/notification',
+          page: () => NotificationManager(),
+        ),
         GetPage(name: '/patient_management', page: ()=>const PatientManagement(),
             children: [
               GetPage(name: '/:id', page: ()=>PatientUserDetails(),)

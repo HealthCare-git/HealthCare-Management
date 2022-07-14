@@ -12,16 +12,16 @@ class PatientManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: (){
-            Get.back();
-          },
-          child: const Icon(Icons.arrow_back,color: Colors.black,),
-        ),
-        title: Text1(text: "Patient Management", color: Colors.black, size: 20),
+      appBar: PreferredSize(
+          preferredSize: Size(double.infinity,Get.height*0.15),
+          child: Card(
+            color:Colors.green.shade100.withOpacity(0.6),
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text1(text: "Patient Management", color: const Color(themeColor), size: 30),
+            ),
+          )
       ),
       body:  FutureBuilder<QuerySnapshot>(
           future: FirebaseFirestore.instance.collection('patients').orderBy("patient_joining_date",descending: true).get(),
@@ -52,12 +52,12 @@ class PatientManagement extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: const Color(themeColor2)
+                            color: Colors.green.shade100.withOpacity(0.6)
                         ),
                         child: Column(
                           children: [
                             Text1(text: snapshot.data!.docs[index]["name"], color: Colors.black, size: 20),
-                            Text2(weigth: false, size: 0.017, text: snapshot.data!.docs[index]["email"], color: Colors.black),
+                            Text2(weigth: true, size: 0.017, text: snapshot.data!.docs[index]["email"], color: Colors.black),
                             const SizedBox(height: 10,),
                             Text2(weigth: false, size: 0.012, text: snapshot.data!.docs[index]["id"], color: Colors.black),
                             // Text(snapshot.data!.docs[index]["name"],),
