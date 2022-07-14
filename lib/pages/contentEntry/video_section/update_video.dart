@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/responsive.dart';
+import '../../../utils/reusable_widgets.dart';
 import '../medicine/add_delete_medicine.dart';
 import 'controller/add_video_controller.dart';
 
@@ -9,13 +10,14 @@ class UpdateVideo extends StatefulWidget {
   final String video_key;
   final String  video_name;
   final String  video_category;
+  final String  video_level;
   final  String title;
   final  String about;
   final String video_id;
   final String  video_thumbnail;
   final  String live;
   //final String eventId;
-  const UpdateVideo({Key? key,required this.video_key,required this.about, required this.video_name,required this.video_category,required this.title, required this.live, required this.video_id,required this.video_thumbnail,}) : super(key: key);
+  const UpdateVideo({Key? key,required this.video_key,required this.about, required this.video_name,required this.video_category,required this.title, required this.live, required this.video_id,required this.video_thumbnail, required this.video_level,}) : super(key: key);
   @override
   State<UpdateVideo> createState() => _UpdateVideoState();
 }
@@ -32,6 +34,7 @@ class _UpdateVideoState extends State<UpdateVideo> {
     TextEditingController video_key = TextEditingController(text:widget.video_key);
     TextEditingController video_name = TextEditingController(text:widget.video_name);
     TextEditingController video_category = TextEditingController(text:widget.video_category);
+    TextEditingController video_level = TextEditingController(text:widget.video_level);
     TextEditingController about = TextEditingController(text:widget.about);
     TextEditingController tittle = TextEditingController(text:widget.title);
     TextEditingController video_id = TextEditingController(text:widget.video_id);
@@ -50,25 +53,55 @@ class _UpdateVideoState extends State<UpdateVideo> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  DropdownButton<String>(
-                    items: <String>[
-                      'gym',
-                      'yoga and meditation',
-                    ].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    hint: Obx(() => Text(addVideoController.typeOfVideo.value)),
-                    onChanged: (value) {
-                      addVideoController.change(value);
-                      print(addVideoController.typeOfVideo);
-                    },
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     DropdownButton<String>(
+                  //       items: <String>[
+                  //         'Lower Body',
+                  //         'Abs',
+                  //         'Upper Body',
+                  //         'Yoga',
+                  //         'Cardio',
+                  //         'Stretching',
+                  //         'Shoulder',
+                  //         'Acrobatic',
+                  //         'Hands',
+                  //       ].map((String value) {
+                  //         return DropdownMenuItem<String>(
+                  //           value: value,
+                  //           child: Text(value),
+                  //         );
+                  //       }).toList(),
+                  //       hint: Obx(() => Text(addVideoController.typeOfVideo.value)),
+                  //       onChanged: (value) {
+                  //         addVideoController.change(value);
+                  //         print(addVideoController.typeOfVideo);
+                  //       },
+                  //     ),
+                  //     DropdownButton<String>(
+                  //       items: <String>[
+                  //         'low',
+                  //         'mid',
+                  //         'hard',
+                  //       ].map((String value) {
+                  //         return DropdownMenuItem<String>(
+                  //           value: value,
+                  //           child: Text(value),
+                  //         );
+                  //       }).toList(),
+                  //       hint: Obx(() => Text(addVideoController.level.value)),
+                  //       onChanged: (value) {
+                  //         addVideoController.LevelChange(value);
+                  //         print(addVideoController.level);
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
                   addCustomTextField(video_key, 'Video Key'),
                   addCustomTextField(video_name, 'Video Name'),
-                  //addCustomTextField(video_category, 'Video Category'),
+                  addCustomTextField(video_category, "Video Category (Lower Body, Abs, Chest, Yoga, Cardio, Stretching, Shoulder, Acrobatic, Hands, Back)"),
+                  addCustomTextField(video_level, 'Video Level (low, mid, hard)'),
                   addCustomTextField(about, 'About Video'),
                   addCustomTextField(tittle, 'Title'),
                   addCustomTextField(video_id, 'Video Id'),
@@ -94,7 +127,8 @@ class _UpdateVideoState extends State<UpdateVideo> {
                                 'video_thumbnail':video_thumbnail.text.trim(),
                                 "live":live.text.trim(),
                                 "timestamp":FieldValue.serverTimestamp(),
-                              "video_category":addVideoController.typeOfVideo.value,
+                              "video_category":video_category.text.trim(),
+                              "video_level":video_level.text.trim(),
                               }).whenComplete(() => Get.back());
 
                               // await FirebaseFirestore.instance

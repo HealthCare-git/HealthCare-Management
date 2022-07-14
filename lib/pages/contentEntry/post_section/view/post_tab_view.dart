@@ -6,6 +6,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:get/get.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/reusable_widgets.dart';
+import '../../../../utils/texts.dart';
 import 'add_post_view.dart';
 
 
@@ -17,47 +18,61 @@ class PostTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size(double.infinity,Get.height*0.15),
+          child: Card(
+            color:Colors.green.shade100.withOpacity(0.6),
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text1(text: "Post Management", color: const Color(themeColor), size: 30),
+            ),
+          )
+      ),
       body: Stack(
         children: [
           Row(
             children: [
               Expanded(
                   flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: Get.height * 0.2),
-                    child: Column(
-                      children: [
-                        MenuBarTile(
-                          selectedTab: 'up',
-                          iconData: LineIcons.fileUpload,
-                          titleText: 'Update Post',
-                          tab: tab,
-                          onTap: () {
-                            Get.toNamed(
-                                '/home/${AppStrings.CONTENT_ENTRY}/post/up');
-                          },
-                        ),
-                        MenuBarTile(
-                          selectedTab: 'an',
-                          iconData: LineIcons.newspaper,
-                          titleText: 'Add Post',
-                          tab: tab,
-                          onTap: () {
-                            Get.toNamed(
-                                '/home/${AppStrings.CONTENT_ENTRY}/post/an');
-                          },
-                        ),
-                        MenuBarTile(
-                          selectedTab: 'rp',
-                          iconData: LineIcons.recycle,
-                          titleText: 'Remove Post',
-                          tab: tab,
-                          onTap: () {
-                            Get.toNamed(
-                                '/home/${AppStrings.CONTENT_ENTRY}/post/rp');
-                          },
-                        ),
-                      ],
+                  child: Container(
+                    color: Colors.green.shade100.withOpacity(0.6),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: Get.height * 0.2),
+                      child: Column(
+                        children: [
+                          MenuBarTile(
+                            selectedTab: 'up',
+                            iconData: LineIcons.fileUpload,
+                            titleText: 'Update Post',
+                            tab: tab,
+                            onTap: () {
+                              Get.toNamed(
+                                  '/home/${AppStrings.CONTENT_ENTRY}/post/up');
+                            },
+                          ),
+                          MenuBarTile(
+                            selectedTab: 'an',
+                            iconData: LineIcons.newspaper,
+                            titleText: 'Add Post',
+                            tab: tab,
+                            onTap: () {
+                              Get.toNamed(
+                                  '/home/${AppStrings.CONTENT_ENTRY}/post/an');
+                            },
+                          ),
+                          MenuBarTile(
+                            selectedTab: 'rp',
+                            iconData: LineIcons.recycle,
+                            titleText: 'Remove Post',
+                            tab: tab,
+                            onTap: () {
+                              Get.toNamed(
+                                  '/home/${AppStrings.CONTENT_ENTRY}/post/rp');
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   )),
               Expanded(

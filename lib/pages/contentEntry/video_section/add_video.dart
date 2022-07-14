@@ -24,22 +24,54 @@ class AddVideo extends StatelessWidget{
           child: Column(
             children: [
 
-              DropdownButton<String>(
-                items: <String>[
-                  'gym',
-                  'yoga and meditation',
-                ].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                hint: Obx(() => Text(addVideoController.typeOfVideo.value)),
-                onChanged: (value) {
-                  addVideoController.change(value);
-                  print(addVideoController.typeOfVideo);
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DropdownButton<String>(
+                    items: <String>[
+                      'Lower Body',
+                      'Abs',
+                      'Chest',
+                      'Yoga',
+                      'Cardio',
+                      'Stretching',
+                      'Shoulder',
+                      'Acrobatic',
+                      'Hands',
+                      'Back',
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    hint: Obx(() => Text(addVideoController.typeOfVideo.value)),
+                    onChanged: (value) {
+                      addVideoController.change(value);
+                      print(addVideoController.typeOfVideo);
+                    },
+                  ),
+                  DropdownButton<String>(
+                    items: <String>[
+                      'low',
+                      'mid',
+                      'hard',
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    hint: Obx(() => Text(addVideoController.level.value)),
+                    onChanged: (value) {
+                      addVideoController.LevelChange(value);
+                      print(addVideoController.level);
+                    },
+                  ),
+                ],
               ),
+
+
 
               addCustomTextField(video_key, 'Video Key'),
               addCustomTextField(video_name, 'Video Name'),
@@ -61,21 +93,12 @@ class AddVideo extends StatelessWidget{
                           }
                           else{
 
-                            // live.text.trim()=="true"?FirebaseFirestore.instance.doc('PujaPurohitFiles/puja_purohit_tv/live_aarti/${video_id.text.trim()}').set({
-                            //   'video_key' : video_key.text.trim(),
-                            //   'video_name' : video_name.text.trim(),
-                            //   'tittle' :tittle.text.trim(),
-                            //   'video_id' :video_id.text.trim(),
-                            //   'video_thumbnail':video_thumbnail.text.trim(),
-                            //   "live":live.text.trim()=="false"?false:true,
-                            //   "timetamp":FieldValue.serverTimestamp(),
-                            // }):null;
-
                             FirebaseFirestore.instance.doc('inventory/all_videos/videos/${video_id.text.trim()}').set({
                               'video_key' : video_key.text.trim(),
                               'video_name' : video_name.text.trim(),
                               'about' : about.text.trim(),
                               "video_category":addVideoController.typeOfVideo.value,
+                              "video_level":addVideoController.level.value,
                               'tittle' :tittle.text.trim(),
                               'video_id' :video_id.text.trim(),
                               'video_thumbnail':video_thumbnail.text.trim(),
@@ -83,6 +106,7 @@ class AddVideo extends StatelessWidget{
                               "timestamp":FieldValue.serverTimestamp(),
                             }).whenComplete(() {
                               Get.back();
+                              print("done");
                             });
                           }
                         },

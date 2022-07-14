@@ -191,11 +191,12 @@ class _CustomImageUploaderState extends State<CustomImageUploader> {
 
 class FunctionCards extends StatelessWidget {
   const FunctionCards({
-    Key? key,required this.text,required this.iconData,this.ontap
+    Key? key,required this.text,required this.iconData,this.ontap, required this.color
   }) : super(key: key);
   final ontap;
   final String text;
   final IconData iconData;
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -207,7 +208,7 @@ class FunctionCards extends StatelessWidget {
         height: ResponsiveWidget.isSmallScreen(context)?70:150,
         width: ResponsiveWidget.isSmallScreen(context)?70:150,
         decoration: BoxDecoration(
-          color: context.theme.backgroundColor,
+          color: color,
           borderRadius: BorderRadius.circular(10),
 
         ),
@@ -452,17 +453,61 @@ class MenuBarTile extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      selectedTileColor: Color(themeColor),
       selected: tab == selectedTab,
       textColor: Get.isDarkMode ? Colors.white54 : Colors.black54,
-      selectedColor: Get.isDarkMode ? Colors.white : Colors.black,
+      selectedColor: Get.isDarkMode ? Colors.white : Colors.white,
       onTap: onTap,
       iconColor: Get.isDarkMode ? Colors.white54 : Colors.black54,
       leading: Icon(
         iconData,
       ),
-      title: ResponsiveWidget.isLargeScreen(context) ? Text(titleText) : null,
+      title: ResponsiveWidget.isLargeScreen(context) ? Text(titleText,style: TextStyle(fontWeight: FontWeight.bold),) : null,
     );
   }
+
+}
+
+Widget addCustomTextField(TextEditingController controller, hintText) {
+  return Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: TextFormField(
+        textCapitalization: TextCapitalization.words,
+        keyboardType: TextInputType.multiline,
+        maxLines: 10,
+        minLines: 1,
+        controller: controller,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.blue, width: 1.0),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          fillColor: Colors.grey,
+
+          hintText: hintText,
+
+          //make hint text
+          hintStyle: const TextStyle(
+            color: Colors.grey,
+            fontSize: 16,
+            fontFamily: "verdana_regular",
+            fontWeight: FontWeight.w400,
+          ),
+
+          //create lable
+          labelText: hintText,
+          //lable style
+          labelStyle: const TextStyle(
+            color: Colors.grey,
+            fontSize: 16,
+            fontFamily: "verdana_regular",
+            fontWeight: FontWeight.w400,
+          ),
+        )),
+  );
 
 }
 
@@ -487,7 +532,7 @@ class EventCards extends StatelessWidget {
         height: ResponsiveWidget.isSmallScreen(context)?70:150,
         width: ResponsiveWidget.isSmallScreen(context)?70:150,
         decoration: BoxDecoration(
-          color: context.theme.backgroundColor,
+          color:  Colors.green.shade100.withOpacity(0.6),
           borderRadius: BorderRadius.circular(10),
 
         ),
@@ -504,7 +549,10 @@ class EventCards extends StatelessWidget {
               child: remove?Icon(Icons.delete_forever_outlined):null,
             ),
             const SizedBox(height: 5,),
-            Text(text,style: TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?8:14))
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(text,style: TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?8:14,color: Colors.black)),
+            )
           ],
         ),
       ),

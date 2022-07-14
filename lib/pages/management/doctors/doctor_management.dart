@@ -12,16 +12,16 @@ class DoctorManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: (){
-            Get.back();
-          },
-          child: const Icon(Icons.arrow_back,color: Colors.black,),
-        ),
-        title: Text1(text: "Doctor Management", color: Colors.black, size: ResponsiveWidget.isSmallScreen(context)?15:25),
+      appBar: PreferredSize(
+          preferredSize: Size(double.infinity,Get.height*0.15),
+          child: Card(
+            color:Colors.green.shade100.withOpacity(0.6),
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text1(text: "Doctor Management", color: const Color(themeColor), size: 30),
+            ),
+          )
       ),
       body:  StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('doctor').orderBy("doctor_joining_date",descending: true).snapshots(),

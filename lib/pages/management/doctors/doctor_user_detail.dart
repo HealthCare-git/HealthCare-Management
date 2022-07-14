@@ -32,7 +32,7 @@ class DoctorUserDetails extends StatelessWidget{
               ),);
             }
             return  DefaultTabController(length: 6, child: Scaffold(
-                backgroundColor: context.theme.backgroundColor,
+                backgroundColor: Colors.green.shade100.withOpacity(0.6),
                 appBar: AppBar(
                   backgroundColor:Colors.transparent,
                   elevation: 0.0,

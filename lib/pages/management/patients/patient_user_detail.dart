@@ -31,17 +31,17 @@ class PatientUserDetails extends StatelessWidget{
               ),);
             }
             return  DefaultTabController(length: 3, child: Scaffold(
-                backgroundColor: context.theme.backgroundColor,
+                backgroundColor: Colors.green.shade100.withOpacity(0.6),
                 appBar: AppBar(
-                  backgroundColor:Colors.transparent,
-                  elevation: 0.0,
+                  backgroundColor:Colors.green.shade100.withOpacity(0.6),
+                  elevation: 5,
                   automaticallyImplyLeading: false,
                   flexibleSpace: Container(
                   ),
                   actions: [
                     TabBar(
                       labelStyle: GoogleFonts.aBeeZee(color:Colors.white),
-                      labelColor: Get.isDarkMode?Colors.white:Colors.black54,
+                      labelColor: Get.isDarkMode?Colors.white:Colors.black,
                       indicatorColor: Colors.orangeAccent,
                       isScrollable: true,
                       indicatorSize: TabBarIndicatorSize.tab,
@@ -49,7 +49,7 @@ class PatientUserDetails extends StatelessWidget{
                       indicator:const BubbleTabIndicator(
 
                         indicatorHeight: 25.0,
-                        indicatorColor: Color(themeColor2),
+                        indicatorColor: Color(themeColor),
                         tabBarIndicatorSize: TabBarIndicatorSize.tab,
                         // Other flags
                         // indicatorRadius: 1,
@@ -141,9 +141,9 @@ class PatientUserDetails extends StatelessWidget{
                           ],
                         ),
                       ),
-                      // SizedBox(
-                      //   width: 40,
-                      // ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
                         flex: 4,
                         child: TabBarView(
