@@ -17,3 +17,9 @@ samples, guidance on mobile development, and a full API reference.
 
 To build Web development :
 flutter build web -t lib/main.dart --web-renderer html
+
+To run web :
+flutter run -d chrome -t lib/main.dart --web-renderer html
+
+WebSite link:-
+http://healthcare-management.netlify.app
