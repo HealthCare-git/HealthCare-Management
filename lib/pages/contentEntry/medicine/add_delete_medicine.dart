@@ -40,7 +40,8 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
     String mID = "HCID${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}";
     TextEditingController newMedicineName =TextEditingController();
     TextEditingController newMedicineDescription =TextEditingController();
-    TextEditingController newMedicinePrice = TextEditingController();
+    TextEditingController newMedicineActualPrice = TextEditingController();
+    TextEditingController newMedicinePercentageIncreasePrice = TextEditingController();
     TextEditingController newMedicineMargin = TextEditingController();
     TextEditingController newMedicinePackSize =TextEditingController();
     TextEditingController newMedicineUsage =TextEditingController();
@@ -124,7 +125,8 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                     addSamagriTextField(newMedicineStorage, "Storage Information"),
                     addSamagriTextField(newKeyIngredient, "Key Ingredients"),
                     addSamagriTextField(newMedicineDescription, "Medicine Description"),
-                    addSamagriTextField(newMedicinePrice, "Medicine Price"),
+                    addSamagriTextField(newMedicineActualPrice, "Medicine Actual Price"),
+                    addSamagriTextField(newMedicinePercentageIncreasePrice, "Percentage to increase %"),
                     addSamagriTextField(newMedicineMargin, "Medicine margin"),
                     DropdownButton<String>(
                       items: <String>[
@@ -159,7 +161,8 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
 
                           if (newMedicineName.text.trim()!="" &&
                               newMedicineDescription.text.trim()!="" &&
-                              newMedicinePrice.text.trim()!="" &&
+                              newMedicineActualPrice.text.trim()!="" &&
+                              newMedicinePercentageIncreasePrice.text.trim()!="" &&
                               newMedicineMargin.text.trim()!=""){
                             Get.defaultDialog(
                                 title: "Warning",
@@ -171,7 +174,9 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                                   await FirebaseFirestore.instance.collection('inventory/medicines/folder').doc(mID).set({
                                     'medicine_description':newMedicineDescription.text.trim(),
                                     'medicine_name' :newMedicineName.text.trim().capitalizeFirst,
-                                    'medicine_price' : newMedicinePrice.text.trim(),
+                                    'medicine_actual_price' : newMedicineActualPrice.text.trim(),
+                                    'medicine_percentage_price_increased' : newMedicinePercentageIncreasePrice.text.trim(),
+                                    'medicine_increased_price' : int.parse(newMedicineActualPrice.text.trim())+(int.parse(newMedicineActualPrice.text.trim())*int.parse(newMedicinePercentageIncreasePrice.text.trim())/100),
                                     'medicine_margin': newMedicineMargin.text.trim(),
                                     'medicine_pack_size':newMedicinePackSize.text.trim(),
                                     'medicine_usage' :newMedicineUsage.text.trim(),
