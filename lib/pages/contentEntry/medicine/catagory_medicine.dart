@@ -31,9 +31,7 @@ class CatagoryMedicine extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               fillColor: Colors.grey,
-
               hintText: hintText,
-
               //make hint text
               hintStyle:const TextStyle(
                 color: Colors.grey,
@@ -182,9 +180,7 @@ class CatagoryMedicine extends StatelessWidget {
                                                 Get.showSnackbar(const GetSnackBar(message: 'Medicine Update Canceled',duration: Duration(seconds: 2),));
                                               }
                                           );
-
                                         }
-
                                       },
                                       child: redButton('Update')
                                   ),
@@ -203,22 +199,19 @@ class CatagoryMedicine extends StatelessWidget {
                                               Get.showSnackbar(const GetSnackBar(message: 'Medicine Deletion Canceled',duration: Duration(seconds: 2),));
                                             }
                                         );
-
                                       },
                                       child: redButton('Delete'))
                                 ],
                               ),
-
                             ],
                           ),
                         ),
                       );
                     });
               }
-              return Text("");
+              return const Text("");
             }),
       ),
     );
-
   }
 }

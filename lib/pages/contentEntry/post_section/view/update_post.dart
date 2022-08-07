@@ -10,8 +10,8 @@ class UpdatePost extends StatefulWidget {
   final String eventId;
   final String image;
   final String  updateName;
-  final String  updateAbout;
-  const UpdatePost({Key? key,required this.image,required this.eventId, required this.updateName,required this.updateAbout}) : super(key: key);
+  final String  updateRoute;
+  const UpdatePost({Key? key,required this.image,required this.eventId, required this.updateName,required this.updateRoute}) : super(key: key);
   @override
   State<UpdatePost> createState() => _UpdatePostState();
 }
@@ -26,7 +26,7 @@ class _UpdatePostState extends State<UpdatePost> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _name =TextEditingController(text:widget.updateName);
-    TextEditingController _about =TextEditingController(text:widget.updateAbout);
+    TextEditingController _route =TextEditingController(text:widget.updateRoute);
     return Padding(
       padding: ResponsiveWidget.isSmallScreen(context)
           ? const EdgeInsets.all(0)
@@ -102,8 +102,8 @@ class _UpdatePostState extends State<UpdatePost> {
                         },
                         child: const Text("Edit")),
                   ),
-                addEventTextField(_name, "Upcoming Name"),
-                addEventTextField(_about, "About "),
+                addEventTextField(_name, "Update Name"),
+                addEventTextField(_route, "Route "),
 
                   InkWell(
                     onTap: () {
@@ -116,10 +116,10 @@ class _UpdatePostState extends State<UpdatePost> {
                                   .doc(
                                   'inventory/post_folder/post/${widget.eventId}')
                                   .update({
-                                 'name':widget.updateName,
-                                'image': image2,
-                                "nick":widget.updateName,
-                                'about' :widget.updateAbout,
+                                 'name':_name.text.trim(),
+                                //'image': image2,
+                                //"nick":widget.updateName,
+                                'route' :_route.text.trim(),
                               }).whenComplete(() => Get.back());
                           },
                           onCancel: () {

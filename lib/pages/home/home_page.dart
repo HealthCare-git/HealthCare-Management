@@ -7,6 +7,7 @@ import 'package:line_icons/line_icons.dart';
 import '../../utils/constants.dart';
 import '../../utils/responsive.dart';
 import '../contentEntry/content_entry.dart';
+import '../support/support_view.dart';
 
 class HomePage extends StatelessWidget{
   HomePage({Key? key,}) : super(key: key);
@@ -56,7 +57,12 @@ class HomePage extends StatelessWidget{
                           leftTile(context,AppStrings.CONTENT_ENTRY,'Content Entry',LineIcons.user),
                           const SizedBox(height: 5,),
                           leftTile(context,AppStrings.MANAGEMENT,'Users Management',Icons.admin_panel_settings),
-                          Divider(thickness: 2,height: 2,),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          leftTile(context, AppStrings.SUPPORT, 'Support',
+                              Icons.support_agent),
+                          //Divider(thickness: 2,height: 2,),
 
                         ],
                       ),
@@ -73,7 +79,7 @@ class HomePage extends StatelessWidget{
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       elevation: 2,
-                      child: tab == AppStrings.CONTENT_ENTRY? ContentEntryView(id: '',):UserManagementView(id: ''),
+                      child: tab == AppStrings.CONTENT_ENTRY? ContentEntryView(id: '',):tab == AppStrings.MANAGEMENT?UserManagementView(id: ''):SupportView(),
                     ),
                   ),
                 )
