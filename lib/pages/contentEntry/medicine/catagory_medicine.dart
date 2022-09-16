@@ -31,9 +31,7 @@ class CatagoryMedicine extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               fillColor: Colors.grey,
-
               hintText: hintText,
-
               //make hint text
               hintStyle:const TextStyle(
                 color: Colors.grey,
@@ -98,7 +96,7 @@ class CatagoryMedicine extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.size,
                     itemBuilder: (_, index) {
-                      TextEditingController _medicinePrice = TextEditingController(text: snapshot.data!.docs[index]['medicine_price'] );
+                      TextEditingController _medicinePrice = TextEditingController(text: snapshot.data!.docs[index]['medicine_actual_price'] );
                       TextEditingController _medicineName = TextEditingController(text: snapshot.data!.docs[index]['medicine_name'] );
                       TextEditingController _medicineDescription = TextEditingController(text: snapshot.data!.docs[index]['medicine_description'] );
                       TextEditingController _medicineMargin = TextEditingController(text: snapshot.data!.docs[index]['medicine_margin'] );
@@ -108,6 +106,7 @@ class CatagoryMedicine extends StatelessWidget {
                       TextEditingController _medicineKeyIncrident = TextEditingController(text: snapshot.data!.docs[index]['medicine_key_ingredient'] );
                       TextEditingController _medicineUsage = TextEditingController(text: snapshot.data!.docs[index]['medicine_usage'] );
                       TextEditingController _medicineCategory = TextEditingController(text: snapshot.data!.docs[index]['medicine_category'] );
+                      TextEditingController newMedicinePercentageIncreasePrice = TextEditingController(text: snapshot.data!.docs[index]['medicine_percentage_price_increased']);
                       return Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Container(
@@ -134,6 +133,7 @@ class CatagoryMedicine extends StatelessWidget {
                               addSamagriTextField(_medicineKeyIncrident, "Key Ingredient"),
                               addSamagriTextField(_medicineDescription, "Medicine Description"),
                               addSamagriTextField(_medicinePrice, "Medicine Price"),
+                              addSamagriTextField(newMedicinePercentageIncreasePrice, "Percentage to increase %"),
                               addSamagriTextField(_medicineMargin, "Medicine margin"),
                               addSamagriTextField(_medicineCategory, "Medicine Type"),
 
@@ -157,7 +157,9 @@ class CatagoryMedicine extends StatelessWidget {
                                                 await FirebaseFirestore.instance.doc('/inventory/medicines/folder/${snapshot.data!.docs[index]['id']}').update({
                                                   'medicine_description':_medicineDescription.text.trim(),
                                                   'medicine_name' :_medicineName.text.trim().capitalizeFirst,
-                                                  'medicine_price' : _medicinePrice.text.trim(),
+                                                  'medicine_actual_price' : _medicinePrice.text.trim(),
+                                                  'medicine_percentage_price_increased' : newMedicinePercentageIncreasePrice.text.trim(),
+                                                  'medicine_increased_price' : int.parse(_medicinePrice.text.trim())+(int.parse(_medicinePrice.text.trim())*int.parse(newMedicinePercentageIncreasePrice.text.trim())/100),
                                                   'medicine_margin': _medicineMargin.text.trim(),
                                                   'medicine_pack_size':_medicinePackSize.text.trim(),
                                                   'medicine_usage' :_medicineUsage.text.trim(),
@@ -178,9 +180,7 @@ class CatagoryMedicine extends StatelessWidget {
                                                 Get.showSnackbar(const GetSnackBar(message: 'Medicine Update Canceled',duration: Duration(seconds: 2),));
                                               }
                                           );
-
                                         }
-
                                       },
                                       child: redButton('Update')
                                   ),
@@ -199,22 +199,19 @@ class CatagoryMedicine extends StatelessWidget {
                                               Get.showSnackbar(const GetSnackBar(message: 'Medicine Deletion Canceled',duration: Duration(seconds: 2),));
                                             }
                                         );
-
                                       },
                                       child: redButton('Delete'))
                                 ],
                               ),
-
                             ],
                           ),
                         ),
                       );
                     });
               }
-              return Text("");
+              return const Text("");
             }),
       ),
     );
-
   }
 }

@@ -79,7 +79,7 @@ class AddPostView extends StatelessWidget{
                   ),
 
                   addCustomTextField(name, 'Post Name'),
-                  addCustomTextField(about, 'About Post'),
+                  addCustomTextField(about, 'Route Post'),
                   SizedBox(height: 20,),
                   InkWell(
                     onTap: (){
@@ -98,7 +98,7 @@ class AddPostView extends StatelessWidget{
                           );
                      FirebaseFirestore.instance.doc('inventory/post_folder/post/$postId').set({
                         'name' : name.text,
-                        'about' : about.text,
+                        'route' : about.text,
                         'image' : controller.addUpcomingData.value.image,
                         'nick' : name.text,
                        "timestamp":FieldValue.serverTimestamp(),

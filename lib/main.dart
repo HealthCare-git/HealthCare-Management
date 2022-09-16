@@ -12,9 +12,12 @@ import 'package:healthcare_management/pages/contentEntry/video_section/video_tab
 import 'package:healthcare_management/pages/home/home_page.dart';
 import 'package:healthcare_management/pages/management/doctors/doctor_management.dart';
 import 'package:healthcare_management/pages/management/doctors/doctor_user_detail.dart';
+import 'package:healthcare_management/pages/management/hospitals/hospital_detail.dart';
+import 'package:healthcare_management/pages/management/hospitals/hospital_management.dart';
 import 'package:healthcare_management/pages/management/patients/patient_management.dart';
 import 'package:healthcare_management/pages/management/patients/patient_user_detail.dart';
 import 'package:healthcare_management/pages/splash_screen.dart';
+import 'package:healthcare_management/pages/support/support_chat/support_chat_view/supoort_chat_view.dart';
 import 'package:healthcare_management/utils/constants.dart';
 import 'package:healthcare_management/utils/firebase_constants.dart';
 import 'package:healthcare_management/utils/theme.dart';
@@ -74,6 +77,12 @@ class MyApp extends StatelessWidget {
               GetPage(name: '/:id', page: ()=>PatientUserDetails(),)
             ]
         ),
+        GetPage(name: '/hospital_management', page: ()=>const HospitalManagement(),
+            children: [
+              GetPage(name: '/:name', page: ()=>HospitalDetails(),)
+            ]
+        ),
+        GetPage(name: '/support-chat', page: ()=>SupportChat()),
       ]),
 
       ],

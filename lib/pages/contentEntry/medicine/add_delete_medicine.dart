@@ -17,14 +17,10 @@ class MedicineAddDelete extends StatefulWidget {
   @override
   State<MedicineAddDelete> createState() => _MedicineAddDeleteState();
 }
-
 class _MedicineAddDeleteState extends State<MedicineAddDelete> {
-
   @override
   Widget build(BuildContext context) {
-
     MedicineController medicineController=Get.put(MedicineController());
-
     // List<TextEditingController> _newName =
     // List.generate(11, (i) => TextEditingController());
     // List<Widget> _newNameTextFields = List.generate(
@@ -40,7 +36,8 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
     String mID = "HCID${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().second}";
     TextEditingController newMedicineName =TextEditingController();
     TextEditingController newMedicineDescription =TextEditingController();
-    TextEditingController newMedicinePrice = TextEditingController();
+    TextEditingController newMedicineActualPrice = TextEditingController();
+    TextEditingController newMedicinePercentageIncreasePrice = TextEditingController();
     TextEditingController newMedicineMargin = TextEditingController();
     TextEditingController newMedicinePackSize =TextEditingController();
     TextEditingController newMedicineUsage =TextEditingController();
@@ -78,7 +75,7 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
-                                            child: Text("Cancel")),
+                                            child: const Text("Cancel")),
                                         TextButton(
                                             onPressed: () {
                                               FileUploadInputElement input =
@@ -103,20 +100,17 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                                                       .getDownloadURL();
                                                   medicineController.updateImage(downloadUrl);
                                                   print(downloadUrl);
-
                                                 });
                                               });
                                               Navigator.of(context).pop();
                                             },
-                                            child: Text("Continue")),
+                                            child: const Text("Continue")),
                                       ],
                                     ));
                               },
-                              child: Text("Edit")),
+                              child: const Text("Edit")),
                         ),
                     ),
-
-
                     addCustomTextField(newMedicineName, "Medicine Name"),
                     addSamagriTextField(newMedicinePackSize, "Selected Pack Size"),
                     addSamagriTextField(newMedicineUsage, "How to use"),
@@ -124,7 +118,8 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                     addSamagriTextField(newMedicineStorage, "Storage Information"),
                     addSamagriTextField(newKeyIngredient, "Key Ingredients"),
                     addSamagriTextField(newMedicineDescription, "Medicine Description"),
-                    addSamagriTextField(newMedicinePrice, "Medicine Price"),
+                    addSamagriTextField(newMedicineActualPrice, "Medicine Actual Price"),
+                    addSamagriTextField(newMedicinePercentageIncreasePrice, "Percentage to increase %"),
                     addSamagriTextField(newMedicineMargin, "Medicine margin"),
                     DropdownButton<String>(
                       items: <String>[
@@ -147,19 +142,17 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                       hint: Obx(() => Text(medicineController.typeOfMedicine.value)),
                       onChanged: (value) {
                         medicineController.change(value);
-                        print(medicineController.typeOfMedicine);
+                         print(medicineController.typeOfMedicine);
                       },
                     ),
-
-
                     InkWell(
                         onTap: ()async{
                           // final List<String> names = await translate(newname.text);
                           // final List<String> description = await translate(newdescription.text);
-
                           if (newMedicineName.text.trim()!="" &&
                               newMedicineDescription.text.trim()!="" &&
-                              newMedicinePrice.text.trim()!="" &&
+                              newMedicineActualPrice.text.trim()!="" &&
+                              newMedicinePercentageIncreasePrice.text.trim()!="" &&
                               newMedicineMargin.text.trim()!=""){
                             Get.defaultDialog(
                                 title: "Warning",
@@ -171,7 +164,9 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                                   await FirebaseFirestore.instance.collection('inventory/medicines/folder').doc(mID).set({
                                     'medicine_description':newMedicineDescription.text.trim(),
                                     'medicine_name' :newMedicineName.text.trim().capitalizeFirst,
-                                    'medicine_price' : newMedicinePrice.text.trim(),
+                                    'medicine_actual_price' : newMedicineActualPrice.text.trim(),
+                                    'medicine_percentage_price_increased' : newMedicinePercentageIncreasePrice.text.trim(),
+                                    'medicine_increased_price' : int.parse(newMedicineActualPrice.text.trim())+(int.parse(newMedicineActualPrice.text.trim())*int.parse(newMedicinePercentageIncreasePrice.text.trim())/100),
                                     'medicine_margin': newMedicineMargin.text.trim(),
                                     'medicine_pack_size':newMedicinePackSize.text.trim(),
                                     'medicine_usage' :newMedicineUsage.text.trim(),
@@ -182,7 +177,6 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                                     'medicine_category':medicineController.typeOfMedicine.value,
                                     'medicine_vendors':[],
                                     "id":mID,
-
                                   }).whenComplete(() => Get.back());
                                   Get.back();
                                   Get.showSnackbar(const GetSnackBar(message: 'Medicine Added',duration: Duration(seconds: 2),));
@@ -196,14 +190,9 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                           else{
                             Get.showSnackbar(const GetSnackBar(message: 'All Fields are mandatory to be filled!',duration: Duration(seconds: 2),));
                           }
-
-
-
-
                         },
                         child: redButton('Submit')
                     )
-
                   ],
                 ),
               ),
@@ -211,7 +200,6 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
             backgroundColor: context.theme.backgroundColor,
             isScrollControlled: true
         ),
-
         child: const CircleAvatar(
           radius: 40,
           backgroundColor: Color(themeColor),
@@ -472,7 +460,6 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                                                 ),
                                                 color:  Color(int.parse(snapshot.data!.docs[index]["bgcolor"]!))
                                             ),
-
                                             //child: remove?Icon(Icons.delete_forever_outlined):null,
                                           ),
                                           // CircleAvatar(
@@ -482,7 +469,6 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                                           //     '${snapshot.data!.docs[index]["image"]}',),
                                           // ),
                                           Text(snapshot.data!.docs[index]["name"],style: TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?8:14)),
-
                                         ],
                                       ):
                                       Padding(
@@ -552,7 +538,7 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
                             //       ),
                             //     ),
                             // );
-                          return SizedBox();
+                          return const SizedBox();
                         }),
                     
                   ],
@@ -567,7 +553,7 @@ class _MedicineAddDeleteState extends State<MedicineAddDelete> {
 
   Container redButton(String text) {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

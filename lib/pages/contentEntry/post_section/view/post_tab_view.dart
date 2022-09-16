@@ -113,7 +113,7 @@ class PostTab extends StatelessWidget {
                                       eventId: element.id,
                                       image: element["image"],
                                       updateName: element['name'],
-                                      updateAbout: element["about"],
+                                      updateRoute: element["route"],
                                     ),
                                   ),
                                   backgroundColor: context.theme.backgroundColor,
